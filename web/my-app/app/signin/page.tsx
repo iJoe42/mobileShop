@@ -53,7 +53,10 @@ export default function SignIn() {
                 <div className="mt-4 font-semibold">Password</div>
                 <input type="password" placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)}}></input>
 
-                <button className="mt-4 font-semibold" onClick={handleSignin}>Sign In</button>
+                <button className="mt-4 font-semibold" onClick={handleSignin}>
+                    Sign In
+                    <i className="fa fa-sign-in-alt ml-3"></i>
+                </button>
 
             </div>
         </div>

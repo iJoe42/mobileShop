@@ -29,3 +29,11 @@ body {
 .signin-box button {
   @apply mt-4 bg-blue-300 text-black px-6 py-2 rounded-md
 }
+
+.btn {
+  @apply bg-teal-600 text-white px-6 py-2 rounded-md
+}
+
+.content-header {
+  @apply text-2xl font-bold mb-5 pt-5 pb-3 border-b-2 border-teal-600 text-teal-600
+}
