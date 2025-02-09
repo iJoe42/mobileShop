@@ -33,6 +33,7 @@ model Company {
 
 model Product {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
+  serial            String?
   name              String
   release           String
   color             String
@@ -41,5 +42,6 @@ model Product {
   customerPhone     String
   customerAddress   String
   remark            String
-  status            String @default("In Stock")
+  status            String @default("instock")
+  qty               Int?
 }

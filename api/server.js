@@ -38,8 +38,13 @@ app.post("/api/company/create", CompanyController.create);
 //
 // product API
 //
+app.get("/api/buy/list", ProductController.list);
+
 app.post("/api/buy/create", ProductController.create);
 
+app.put("/api/buy/update/:id", ProductController.update);
+
+app.delete("/api/buy/remove/:id", ProductController.remove); // "soft delete", change status to "deleted"
 //
 // port listen
 //
