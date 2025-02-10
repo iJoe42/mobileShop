@@ -22,7 +22,7 @@ export default function SignIn() {
             const response = await axios.post(`${config.apiURL}/user/signin`, payload);
 
             if(response.data.token !== null) {
-                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("token", response.data.token); // save token as "token" in localStorage
                 router.push("/backoffice/dashboard");
             } else {
                 Swal.fire({

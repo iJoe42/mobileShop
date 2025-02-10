@@ -9,6 +9,7 @@ const cors = require("cors");
 const { UserController } = require("./controller/UserController");
 const { CompanyController } = require("./controller/CompanyController");
 const { ProductController } = require("./controller/ProductController");
+const { SellController } = require("./controller/SellController");
 //
 // middleware
 //
@@ -26,25 +27,30 @@ app.get("/", (req, res) => {
 //
 // user API
 //
+app.get("/api/user/info", UserController.info);
 app.post("/api/user/signin", UserController.signIn);
+app.put("/api/user/update", UserController.update);
 
 //
 // company API
 //
 app.get("/api/company/list", CompanyController.list);
-
 app.post("/api/company/create", CompanyController.create);
 
 //
 // product API
 //
 app.get("/api/buy/list", ProductController.list);
-
 app.post("/api/buy/create", ProductController.create);
-
 app.put("/api/buy/update/:id", ProductController.update);
-
 app.delete("/api/buy/remove/:id", ProductController.remove); // "soft delete", change status to "deleted"
+
+//
+// sell API
+//
+app.post("/api/sell/create", SellController.create);
+
+
 //
 // port listen
 //

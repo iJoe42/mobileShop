@@ -7,7 +7,7 @@ interface ModalProps {
     onClose: () => void;
 }
 
-export default function Modal({title, children, isOpen, onClose, size}: ModalProps) {
+export default function Modal({title, children, isOpen, onClose}: ModalProps) {
     return (
         isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
