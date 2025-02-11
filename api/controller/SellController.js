@@ -7,7 +7,10 @@ module.exports = {
             try {
                 const serial = req.body.serial;
                 const product = await prisma.product.findFirst({
-                    where: {serial: serial}
+                    where: {
+                        serial: serial,
+                        status: "instock"
+                    }
                 });
 
                 // product not found
@@ -25,9 +28,85 @@ module.exports = {
                     
                     res.json({message: "CREATE SELL Success!"})
                 }
-            } catch(err) {
-                res.status(500).json({error: err.message});
+            } catch(error) {
+                res.status(500).json({error: error.message});
             }
         },
+
+        list: async (req, res) => {
+            try {
+                const sells = await prisma.sell.findMany({
+                    where: {
+                        status: "pending"
+                    },
+                    orderBy: {
+                        id: "desc"
+                    },
+                    select: {
+                        id: true,
+                        price: true,
+                        product: {
+                            select: {
+                                serial: true,
+                                name: true
+                            }
+                        }
+                    }
+                });
+
+                res.json(sells);
+            } catch (error) {
+                res.status(500).json({error: error.message})
+            }
+        },
+
+        remove: async (req, res) => {
+            try {
+                await prisma.sell.delete({
+                    where: {
+                        id: req.params.id
+                    }
+                });
+
+                res.json({message: "DELETE Success!"});
+            } catch (error) {
+                res.status(500).json({error: error.message});
+            }
+        },
+
+        confirm: async (req, res) => {
+            try {
+                const sells = await prisma.sell.findMany({
+                    where: {
+                        status: "pending"
+                    }
+                });
+
+                // update product
+                for(const sell of sells) {
+                    await prisma.product.update({
+                        where: {
+                            id: sell.productId
+                        },
+                        data: {
+                            status: "sold"
+                        }
+                    });
+                }
+
+                await prisma.sell.updateMany({
+                    where: {
+                        status: "pending"
+                    },
+                    data: {
+                        status: "paid",
+                        payDate: new Date()
+                    }
+                });
+                res.json({message: "CONFIRM Success!"});
+            } catch (error) {
+                res.status(500).json({error: error.message});
+            }
+        }
     }
 }
