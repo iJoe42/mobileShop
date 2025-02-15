@@ -10,6 +10,8 @@ const { UserController } = require("./controller/UserController");
 const { CompanyController } = require("./controller/CompanyController");
 const { ProductController } = require("./controller/ProductController");
 const { SellController } = require("./controller/SellController");
+const { ServiceController } = require("./controller/ServiceController");
+
 //
 // middleware
 //
@@ -30,6 +32,7 @@ app.get("/", (req, res) => {
 app.get("/api/user/info", UserController.info);
 app.post("/api/user/signin", UserController.signIn);
 app.put("/api/user/update", UserController.update);
+app.get("/api/user/list", UserController.list);
 
 //
 // company API
@@ -52,6 +55,14 @@ app.post("/api/sell/create", SellController.create);
 app.get("/api/sell/list", SellController.list);
 app.delete("/api/sell/remove/:id", SellController.remove);
 app.get("/api/sell/confirm", SellController.confirm);
+
+//
+// service API
+//
+app.post("/api/service/create", ServiceController.create);
+app.get("/api/service/list", ServiceController.list);
+app.put("/api/service/update/:id", ServiceController.update);
+app.delete("/api/service/remove/:id", ServiceController.remove);
 
 //
 // port listen
