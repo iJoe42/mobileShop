@@ -84,7 +84,7 @@ module.exports = {
             try {
                 const users = await prisma.user.findMany({
                     where: {
-                        status: "active"
+                       status: "active"
                     },
                     orderBy: {
                         id: "desc"
@@ -95,6 +95,61 @@ module.exports = {
             } catch (error) {
                 res.status(500).json({message: error.message});
             }
-        }
+        },
+
+        create: async (req, res) => {
+            try {
+                await prisma.user.create({
+                    data: {
+                        name: req.body.name,
+                        username: req.body.username,
+                        password: req.body.password,
+                        level: req.body.level
+                    }
+                });
+
+                res.json({message: "CREATE User success!"});
+            } catch (error) {
+                res.status(500).json({message: error.message});
+            }
+        },
+
+        updateRow: async (req, res) => {
+            try {
+                const oldUser = await prisma.user.findFirst({
+                    where: { id: req.params.id }
+                });
+                const newPassword = req.body.password !== "" ? req.body.password : oldUser.password;
+
+                await prisma.user.update({
+                    where: { id: req.params.id },
+                    data: {
+                        name: req.body.name,
+                        username: req.body.username,
+                        password: req.body.password,
+                        level: req.body.level
+                    }
+                });
+
+                res.json({message: "UPDATE User success!"});
+            } catch (error) {
+                res.status(500).json({message: error.message});
+            }
+        },
+
+        remove: async (req, res) => {
+            try {
+                await prisma.user.update({
+                    where: { id: req.params.id },
+                    data: {
+                        status: "inactive"
+                    }
+                });
+
+                res.json({message: "REMOVE User success!"});
+            } catch (error) {
+                res.status(500).json({message: error.message});
+            }
+        },
     }
 }
